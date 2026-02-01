@@ -9,7 +9,6 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 
 import { menu } from '@/common/menu';
 import { MenuProps } from '@/common/interface/MenuInterface';
-import { View } from 'react-native';
 
 
 export default function TabLayout() {

@@ -3,8 +3,8 @@ import Container from "@/components/common/Contailner";
 
 import {badgeMenuData} from "@/common/badgeitem";
 import { BadgeMenuInterface } from "@/common/interface/BadgeMenuInterface";
-import { Dimensions, Text, TouchableOpacity, View } from "react-native";
-import {useState,useEffect, use} from "react";
+import { Dimensions, Image, ImageSourcePropType, Text, TouchableOpacity, View } from "react-native";
+import {useState,useEffect} from "react";
 
 export default function DrinkScreen() {
     const [type, setType] =  useState<string>();
@@ -37,6 +37,7 @@ export default function DrinkScreen() {
                     return (
                             <TouchableOpacity key={item.id} onPress={() => console.log(`${item.name} selected`)}>
                                 <View style={{width:itemWidth,justifyContent:'center',alignItems:'center',borderColor:'white',borderWidth:1,marginBottom:10}}>
+                                    <Image source={item.imageUrl as ImageSourcePropType} style={{width:itemWidth-20,height:itemWidth-20,resizeMode:'contain',marginTop:10}}/>
                                     <Text style={{color:"white",margin:10}}>{item.name}</Text>
                                     <Text style={{color:"white"}}>{item.price}</Text>
                                 </View>

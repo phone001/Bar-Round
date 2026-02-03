@@ -8,7 +8,7 @@ export const badgeMenuData: BadgeMenuInterface[] = [
                 id: 1,
                 name: "미도리사워",
                 price: 9000,
-                imageUrl: "https://example.com/images/americano.jpg"
+                imageUrl: require("@/assets/images/drink/midori.png")
             }]
     },{
         type: "위스키",
@@ -17,17 +17,17 @@ export const badgeMenuData: BadgeMenuInterface[] = [
                 id: 2,
                 name: "맥켈란",
                 price: 120000,
-                imageUrl: "https://example.com/images/americano.jpg"
+                imageUrl: require("@/assets/images/drink/macallan.png")
             },{
                 id: 3,
                 name: "조니워커",
                 price: 100000,
-                imageUrl: "https://example.com/images/americano.jpg"
+                imageUrl: require("@/assets/images/drink/JohnnieWalke.png")
             },{
                 id: 4,
                 name: "발베니",
                 price: 100000,
-                imageUrl: "https://example.com/images/americano.jpg"
+                imageUrl: require("@/assets/images/drink/balvenie.png")
             }]
     }
 ];

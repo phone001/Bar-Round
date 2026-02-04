@@ -2,19 +2,28 @@ import Badge from "@/components/common/Badge";
 import Container from "@/components/common/Contailner";
 
 import {badgeMenuData} from "@/common/badgeitem";
-import { BadgeMenuInterface } from "@/common/interface/BadgeMenuInterface";
+import { BadgeMenuInterface,BadgeMenuItemInterface } from "@/common/interface/BadgeMenuInterface";
 import { Dimensions, Image, ImageSourcePropType, Text, TouchableOpacity, View } from "react-native";
 import {useState,useEffect} from "react";
+import DetailScreen from "@/components/detail-modal";
 
 export default function DrinkScreen() {
     const [type, setType] =  useState<string>();
-    const [drinkItems, setDrinkItems] = useState<BadgeMenuInterface["items"]>([]);
+    const [drinkItems, setDrinkItems] = useState<BadgeMenuItemInterface[]>([]);
+    const [selectItem, setSelectItem] = useState<BadgeMenuItemInterface|null>(null);
+    const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
     const screenWidth = Dimensions.get('window').width;
     const numColumns = 2;
     const gap = 10; // 아이템 사이 간격
 
     // (전체너비 - 양옆 여백 - 아이템 사이 간격) / 개수
     const itemWidth = (screenWidth - (gap * 3)) / numColumns;
+
+    const showDetail=(drink:BadgeMenuItemInterface)=>{
+        setSelectItem(drink);
+        setIsShowDetail(true);
+    };
+
 
     // type이 변경될 때마다 drinkItems 업데이트
     useEffect(() => {
@@ -26,6 +35,7 @@ export default function DrinkScreen() {
         }
     }, [type]);
 
+
     return (
         <Container>
             <View style={{flexDirection: 'row', flexWrap: 'wrap', gap: 8}}>
@@ -35,7 +45,7 @@ export default function DrinkScreen() {
             <View style={{flexWrap:'wrap',flexDirection:'row',padding:10}}>
                 {drinkItems.map((item) => {
                     return (
-                            <TouchableOpacity key={item.id} onPress={() => console.log(`${item.name} selected`)}>
+                            <TouchableOpacity key={item.id} onPress={() => showDetail(item)}>
                                 <View style={{width:itemWidth,justifyContent:'center',alignItems:'center',borderColor:'white',borderWidth:1,marginBottom:10}}>
                                     <Image source={item.imageUrl as ImageSourcePropType} style={{width:itemWidth-20,height:itemWidth-20,resizeMode:'contain',marginTop:10}}/>
                                     <Text style={{color:"white",margin:10}}>{item.name}</Text>
@@ -44,7 +54,11 @@ export default function DrinkScreen() {
                             </TouchableOpacity>
                     )
                 })}
-                </View>
+            </View>
+            {isShowDetail && selectItem && (
+                <DetailScreen item={selectItem} setIsShowDetail={setIsShowDetail}/>
+                )
+            }   
         </Container>
     )
 }

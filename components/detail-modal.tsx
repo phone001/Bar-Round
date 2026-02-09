@@ -1,15 +1,16 @@
 import { BadgeMenuItemInterface } from '@/common/interface/BadgeMenuInterface';
-import { View,  StyleSheet,Text, TouchableOpacity, Image, ImageSourcePropType,TextInput} from 'react-native';
+import { View,  StyleSheet,Text, TouchableOpacity, Image, ImageSourcePropType,TextInput, Dimensions} from 'react-native';
 import SliderUpView from '@/components/ui/slider-up';
 import { useState } from 'react';
 import {Ionicons} from '@expo/vector-icons'
+import Badge from './common/Badge';
 
 export default function DetailScreen({item,setIsShowDetail}:{item:BadgeMenuItemInterface,setIsShowDetail:React.Dispatch<React.SetStateAction<boolean>>}) {
     const [quantity, setQuantity] =  useState<string>("1");
     const numberFormatter = new Intl.NumberFormat('ko-KR');
 
-    const setQuantityValue=(value:string)=>{
-        setQuantity(value);
+    const setQuantityValue=(value:number)=>{
+        setQuantity(value.toString());
     }
 
     const handelCancel=()=>{
@@ -21,14 +22,26 @@ export default function DetailScreen({item,setIsShowDetail}:{item:BadgeMenuItemI
             <Image source={item.imageUrl as ImageSourcePropType} style={{width:200,height:200,resizeMode:'contain',marginBottom:20}}/>
             <Text style={[styles.text,{color:'white',fontSize:32,fontWeight:'bold'}]}>{item.name}</Text>
             
-            <Text style={[styles.text,{color:'white',fontSize:24,marginTop:10,marginBottom:20}]}>{numberFormatter.format(item.price)}원</Text>
-            <View style={{flexDirection:'row',alignItems:'center',gap:10}}>
-                <TextInput keyboardType="numeric" style={styles.input} value={quantity} placeholder="수량" onChangeText={(text)=>setQuantity(text)}/> 
-                <TouchableOpacity onPress={() => setQuantityValue((parseInt(quantity) + 1).toString())}>
-                    <Ionicons name="add" size={24} color="white" style={styles.calculateIcon}/>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setQuantityValue((parseInt(quantity) - 1).toString())}>
+            <Text style={[styles.text,{color:'white',fontSize:24,marginTop:10,marginBottom:20}]}>{`₩${numberFormatter.format(item.price)}`}</Text>
+            
+            <View style={{width:'80%',marginBottom:20, }}>
+                <Text style={{color:'white',fontSize:16,fontWeight:'bold'}}>{item.description}</Text>
+            </View>
+            <View style={styles.ingredient}>
+              {item.ingredients?.map((ingredient, index) => (
+                <Badge key={index} setType={()=>{}}>{ingredient}</Badge>
+              ))}
+            </View>
+            
+            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',gap:10,width:'100%'}}>
+                <TouchableOpacity onPress={() => setQuantityValue(Math.max(1, parseInt(quantity) - 1))}>
                     <Ionicons name="remove" size={24} color="white" style={styles.calculateIcon}/>
+                </TouchableOpacity>
+
+                <Text  style={[styles.quantity,{width:'50%'}]}>{quantity}</Text> 
+                
+                <TouchableOpacity onPress={() => setQuantityValue(parseInt(quantity) + 1)}>
+                    <Ionicons name="add" size={24} color="white" style={styles.calculateIcon}/>
                 </TouchableOpacity>
             </View>
             <View style={styles.box}>
@@ -58,7 +71,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     backgroundColor: '#6395ff',
-    width:100,
+    width: Dimensions.get('window').width/2.5,
     height:40,
     textAlign:'center',
     lineHeight:40,
@@ -69,21 +82,35 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
   },
-  input:{
+  quantity:{
     borderColor:'gray',
     borderRadius:5,
     paddingLeft:5,
     borderWidth:1,
-    width:100,
+    width:'80%',
     height:40,
     color:'white',
     fontSize:18,
+    textAlign:'center',
+    lineHeight:40,
   },
   calculateIcon:{
     borderRadius:5,
     borderWidth:1,
     borderColor:'gray',
     padding:5,
+  },
+  ingredient:{
+    width:'80%',
+    height:100,
+    color:'white',
+    fontSize:16,
+    marginBottom:20,
+    backgroundColor:'gray',
+    padding:10,
+    borderRadius:5,
+    flexDirection:'row',
+    flexWrap:'wrap',
+    gap:5,
   }
-
 });

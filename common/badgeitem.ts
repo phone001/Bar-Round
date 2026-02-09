@@ -8,7 +8,9 @@ export const badgeMenuData: BadgeMenuInterface[] = [
                 id: 1,
                 name: "미도리사워",
                 price: 9000,
-                imageUrl: require("@/assets/images/drink/midori.png")
+                imageUrl: require("@/assets/images/drink/midori.png"),
+                description: "미도리 사워는 일본산 멜론 리큐어인 미도리를 베이스로 한 상큼하고 달콤한 칵테일",
+                ingredients: ["미도리 리큐어", "레몬 주스", "설탕 시럽", "얼음"]
             }]
     },{
         type: "위스키",

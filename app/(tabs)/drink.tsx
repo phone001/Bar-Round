@@ -45,13 +45,13 @@ export default function DrinkScreen() {
             <View style={{flexWrap:'wrap',flexDirection:'row',padding:10}}>
                 {drinkItems.map((item) => {
                     return (
-                            <TouchableOpacity key={item.id} onPress={() => showDetail(item)}>
-                                <View style={{width:itemWidth,justifyContent:'center',alignItems:'center',borderColor:'white',borderWidth:1,marginBottom:10}}>
-                                    <Image source={item.imageUrl as ImageSourcePropType} style={{width:itemWidth-20,height:itemWidth-20,resizeMode:'contain',marginTop:10}}/>
-                                    <Text style={{color:"white",margin:10}}>{item.name}</Text>
-                                    <Text style={{color:"white"}}>{item.price}</Text>
-                                </View>
-                            </TouchableOpacity>
+                        <TouchableOpacity key={item.id} onPress={() => showDetail(item)}>
+                            <View style={{width:itemWidth,justifyContent:'center',alignItems:'center',borderColor:'white',borderWidth:1,marginBottom:10}}>
+                                <Image source={item.imageUrl as ImageSourcePropType} style={{width:itemWidth-20,height:itemWidth-20,resizeMode:'contain',marginTop:10}}/>
+                                <Text style={{color:"white",margin:10}}>{item.name}</Text>
+                                <Text style={{color:"white"}}>{item.price}</Text>
+                            </View>
+                        </TouchableOpacity>
                     )
                 })}
             </View>

@@ -15,7 +15,7 @@ export default function SliderUpView({children}:{children:ReactNode}) {
                 speed: 12, 
             }),
             Animated.timing(opacity, {
-                toValue: 0.9, 
+                toValue: 1, 
                 duration: 500, 
                 useNativeDriver: true,
             })

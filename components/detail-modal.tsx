@@ -1,7 +1,7 @@
 import { BadgeMenuItemInterface } from '@/common/interface/BadgeMenuInterface';
 import { View,  StyleSheet,Text, TouchableOpacity, Image, ImageSourcePropType,TextInput, Dimensions} from 'react-native';
 import SliderUpView from '@/components/ui/slider-up';
-import { use, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import {Ionicons} from '@expo/vector-icons'
 import Badge from './common/Badge';
 import { useSetAtom } from 'jotai';
@@ -29,6 +29,8 @@ export default function DetailScreen({item,setIsShowDetail}:{item:BadgeMenuItemI
                 // 장바구니에 없는 경우 새 항목 추가
                 updatedItems.push({
                     productId: item.id.toString(),
+                    productName: item.name,
+                    url: item.imageUrl,
                     quantity: parseInt(quantity),
                     price: item.price,
                 });

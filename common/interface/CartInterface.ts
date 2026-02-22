@@ -3,6 +3,8 @@ export default interface CartInterface {
     tableId?: string;
     items: Array<{
         productId: string;
+        productName: string;
+        url?: string;
         quantity: number;
         price: number;
     }>;

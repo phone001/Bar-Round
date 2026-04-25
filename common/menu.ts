@@ -15,5 +15,9 @@ export const menu : MenuProps[] = [
         name:"order",
         title:"주문",
         icon:"cart.fill"
+    },{
+        name:"auth",
+        title:"인증",
+        icon:"camera.fill"
     }
 ]

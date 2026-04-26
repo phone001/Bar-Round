@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import "../global.css";
-import { Image, TouchableOpacity } from 'react-native';
+import { Image, Platform, TouchableOpacity } from 'react-native';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Text, View } from 'react-native';
 import { IconSymbol } from '@/components/ui/icon-symbol';
@@ -12,6 +12,7 @@ import { useAtomValue } from 'jotai';
 import { cartItemAtom } from '@/common/cartItem';
 import { useEffect, useState } from 'react';
 import CartList from '@/components/cart-list';
+import { requestMultiple, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -27,6 +28,24 @@ export default function RootLayout() {
     setIsCartOpen(!isCartOpen);
   }
 
+  const requestCameraPermission = async (): Promise<boolean> => {
+  try {
+    const results = await requestMultiple([
+      Platform.OS === 'ios' ? PERMISSIONS.IOS.CAMERA : PERMISSIONS.ANDROID.CAMERA,
+    ]);
+
+    return results[Platform.OS === 'ios' ? PERMISSIONS.IOS.CAMERA : PERMISSIONS.ANDROID.CAMERA] === RESULTS.GRANTED;
+  } catch (error) {
+    console.error(error);
+    return false;
+
+  }
+}
+
+  // 앱이 처음 로드될 때 카메라 권한 요청 함수 실행
+  useEffect(() => {
+    requestCameraPermission();
+  }, []);
 
   useEffect(() => {
     const totalCount = cartItem.items?.reduce((acc, item) => acc + item.quantity, 0);

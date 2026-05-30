@@ -13,6 +13,7 @@ import { cartItemAtom } from '@/common/cartItem';
 import { useEffect, useState } from 'react';
 import CartList from '@/components/cart-list';
 import { requestMultiple, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import { QueryClientProvider,QueryClient } from '@tanstack/react-query';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -55,6 +56,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <QueryClientProvider client={new QueryClient()}>
         <View className='bg-[rgb(17,21,26)] flex-row ralative' >
           <Image source={require('@/assets/images/main-icon.png')} style={{width:60,height:70,marginTop:80}}/>
           <Text style={{color:"rgb(205,167,123)", fontSize:30, fontWeight:"bold", marginTop:100}}>Bar Round</Text>
@@ -71,6 +73,7 @@ export default function RootLayout() {
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
       <StatusBar style="auto" />
+      </QueryClientProvider>
     </ThemeProvider>
   );
 }

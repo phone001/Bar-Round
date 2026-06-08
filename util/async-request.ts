@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {API_URL} from '@env';
 
 interface RequestProps {
     data?: any;
@@ -17,8 +16,7 @@ interface RequestObj {
 }
 
 const axiosInit = axios.create({
-    baseURL: API_URL, // 메인 API URL 설정
-    // baseURL: API_URL, // 메인 API URL 설정
+    baseURL: process.env.EXPO_PUBLIC_API_URL,
     timeout: 10000, // Set a timeout for requests (optional)
     headers: {
         'Content-Type': 'application/json', // Set default headers (optional)

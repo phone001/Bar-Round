@@ -12,3 +12,11 @@ node_modules/
 .expo
 .expo/*
 .expo-shared/
+android/
+ios/
+web-build/
+dist/
+build/
+*.log
+
+.env

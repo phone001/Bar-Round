@@ -3,23 +3,28 @@ import Container from "@/components/common/Contailner";
 
 import {badgeMenuData} from "@/common/badgeitem";
 import { BadgeMenuInterface,BadgeMenuItemInterface } from "@/common/interface/BadgeMenuInterface";
-import { Dimensions, Image, ImageSourcePropType, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, ImageSourcePropType, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import {useState,useEffect} from "react";
 import DetailScreen from "@/components/detail-modal";
+import { useGetDrinkList } from "@/hooks";
+import { DrinkItem } from "@/types/drink";
 
 export default function DrinkScreen() {
-    const [type, setType] =  useState<string>();
+    const [type, setType] =  useState<string>("");
     const [drinkItems, setDrinkItems] = useState<BadgeMenuItemInterface[]>([]);
-    const [selectItem, setSelectItem] = useState<BadgeMenuItemInterface|null>(null);
+    const [selectItem, setSelectItem] = useState<DrinkItem|null>(null);
     const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
     const screenWidth = Dimensions.get('window').width;
     const numColumns = 2;
     const gap = 10; // 아이템 사이 간격
 
+    const {drinkList} = useGetDrinkList(type);
+
     // (전체너비 - 양옆 여백 - 아이템 사이 간격) / 개수
     const itemWidth = (screenWidth - (gap * 3)) / numColumns;
 
-    const showDetail=(drink:BadgeMenuItemInterface)=>{
+    const showDetail=(drink: DrinkItem)=>{
+        console.log("선택된 음료:", drink);
         setSelectItem(drink);
         setIsShowDetail(true);
     };
@@ -42,10 +47,10 @@ export default function DrinkScreen() {
                 <Badge setType={setType}>전체</Badge>
                 {badgeMenuData.map((badgeMenu:BadgeMenuInterface,index:number) => <Badge key={index} setType={setType}>{badgeMenu.type}</Badge>)}
             </View>
-            <View style={{flexWrap:'wrap',flexDirection:'row',padding:10}}>
-                {drinkItems.map((item) => {
+            <ScrollView contentContainerStyle={{flexWrap:'wrap',flexDirection:'row',padding:10}}>
+                {drinkList?.map((item:DrinkItem,index:number) => {
                     return (
-                        <TouchableOpacity key={item.id} onPress={() => showDetail(item)}>
+                        <TouchableOpacity key={item.orderId} onPress={() => showDetail(item)}>
                             <View style={{width:itemWidth,justifyContent:'center',alignItems:'center',borderColor:'white',borderWidth:1,marginBottom:10}}>
                                 <Image source={item.imageUrl as ImageSourcePropType} style={{width:itemWidth-20,height:itemWidth-20,resizeMode:'contain',marginTop:10}}/>
                                 <Text style={{color:"white",margin:10}}>{item.name}</Text>
@@ -54,11 +59,10 @@ export default function DrinkScreen() {
                         </TouchableOpacity>
                     )
                 })}
-            </View>
-            {isShowDetail && selectItem && (
-                <DetailScreen item={selectItem} setIsShowDetail={setIsShowDetail}/>
-                )
-            }   
+            </ScrollView>
+            {selectItem && isShowDetail && (
+                <DetailScreen item={selectItem} isOpen={isShowDetail} setIsShowDetail={setIsShowDetail}/>
+            )}   
         </Container>
     )
 }

@@ -6,8 +6,9 @@ import {Ionicons} from '@expo/vector-icons'
 import Badge from './common/Badge';
 import { useSetAtom } from 'jotai';
 import { cartItemAtom } from '@/common/cartItem';
+import { DrinkItem } from '@/types/drink';
 
-export default function DetailScreen({item,setIsShowDetail}:{item:BadgeMenuItemInterface,setIsShowDetail:React.Dispatch<React.SetStateAction<boolean>>}) {
+export default function DetailScreen({item, isOpen, setIsShowDetail}:{item:DrinkItem, isOpen:boolean, setIsShowDetail:React.Dispatch<React.SetStateAction<boolean>>}) {
     const [quantity, setQuantity] =  useState<string>("1");
     const numberFormatter = new Intl.NumberFormat('ko-KR');
 
@@ -19,7 +20,7 @@ export default function DetailScreen({item,setIsShowDetail}:{item:BadgeMenuItemI
 
     const handleCartAdd=()=>{
         setCart((prevCart)=>{
-            const existingItemIndex = prevCart.items.findIndex(cartItem => cartItem.productId === item.id.toString());
+            const existingItemIndex = prevCart.items.findIndex(cartItem => cartItem.productId === item.orderId.toString());
             let updatedItems = [...prevCart.items];
 
             if (existingItemIndex >= 0) {
@@ -28,7 +29,7 @@ export default function DetailScreen({item,setIsShowDetail}:{item:BadgeMenuItemI
             } else {
                 // 장바구니에 없는 경우 새 항목 추가
                 updatedItems.push({
-                    productId: item.id.toString(),
+                    productId: item.orderId.toString(),
                     productName: item.name,
                     url: item.imageUrl,
                     quantity: parseInt(quantity),
@@ -45,24 +46,25 @@ export default function DetailScreen({item,setIsShowDetail}:{item:BadgeMenuItemI
     };
 
     const handleCancel=()=>{
+        console.log("취소");
         setIsShowDetail(false);
     }
 
     return (
-        <SliderUpView>
+        <SliderUpView isOpen={isOpen}>
             <Image source={item.imageUrl as ImageSourcePropType} style={{width:200,height:200,resizeMode:'contain',marginBottom:20}}/>
             <Text style={[styles.text,{color:'white',fontSize:32,fontWeight:'bold'}]}>{item.name}</Text>
             
             <Text style={[styles.text,{color:'white',fontSize:24,marginTop:10,marginBottom:20}]}>{`₩${numberFormatter.format(item.price)}`}</Text>
             
             <View style={{width:'80%',marginBottom:20, }}>
-                <Text style={{color:'white',fontSize:16,fontWeight:'bold'}}>{item.description}</Text>
+                <Text style={{color:'white',fontSize:16,fontWeight:'bold'}}>{item.desc}</Text>
             </View>
-            <View style={styles.ingredient}>
+            {/* <View style={styles.ingredient}>
               {item.ingredients?.map((ingredient, index) => (
                 <Badge key={index} setType={()=>{}}>{ingredient}</Badge>
               ))}
-            </View>
+            </View> */}
             
             <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',gap:10,width:'100%'}}>
                 <TouchableOpacity onPress={() => setQuantityValue(Math.max(1, parseInt(quantity) - 1))}>

@@ -2,7 +2,7 @@ import { BadgeMenuInterface } from '@/common/interface/BadgeMenuInterface';
 import { View, Animated, StyleSheet,Text, Dimensions} from 'react-native';
 import { useRef,useEffect,ReactNode } from 'react';
 
-export default function SliderUpView({children}:{children:ReactNode}) {
+export default function SliderUpView({isOpen,children}:{isOpen:boolean,children:ReactNode}) {
     const translateY = useRef(new Animated.Value(100)).current;
 
     const opacity = useRef(new Animated.Value(0)).current;

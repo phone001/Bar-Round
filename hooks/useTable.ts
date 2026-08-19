@@ -13,6 +13,5 @@ export default function useGetTable(){
             return response.data;
         }
     });
-    console.log('useGetTable', data);
     return { tables: data, isLoading, error };
 }

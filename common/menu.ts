@@ -10,6 +10,10 @@ export const menu : MenuProps[] = [
         name:"drink",
         title:"주류",
         icon:"bubbles.and.sparkles"
+    },  {
+        name:"table",
+        title:"테이블",
+        icon:"bubbles.and.sparkles"
     },
     {
         name:"order",

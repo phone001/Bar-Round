@@ -30,7 +30,7 @@ const axiosInstance =  () : RequestObj => {
         const response = await axiosInit.get(url, {
             ...options
         });
-        return response.data;
+        return response;
     }
 
     /** 등록 요청 */
